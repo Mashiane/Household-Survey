@@ -15,6 +15,7 @@ if (isset($_FILES['upload'])) {
         mkdir($target, 0700, true);
     }
     $renameit = $_POST['renameit'];
+    $myname = $_POST['myname'];
     //get the source file
     $source = $_FILES["upload"]["tmp_name"];
 
@@ -23,6 +24,11 @@ if (isset($_FILES['upload'])) {
         $extension = pathinfo( $_FILES["upload"]["name"], PATHINFO_EXTENSION ); 
         $basename = $filename . "." . $extension; 
         $destination = $target . "/" . $basename;
+        //the new file name is specified
+        if (isset($myname)) {
+            $destination = $target . "/" . $myname;
+            $basename = $myname;
+        }
         $moved = move_uploaded_file( $source, $destination );
         $resp['fullpath'] = $destination;
         $resp['name'] = $basename;
